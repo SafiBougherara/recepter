@@ -85,6 +85,8 @@ public class RecepterController {
     @FXML
     private ListView serviceList;
     @FXML
+    private ListView temp_serviceList;
+    @FXML
     private ListView clientList;
 
     @FXML
@@ -93,6 +95,7 @@ public class RecepterController {
 
     ObservableList<Service> items = FXCollections.observableArrayList();
     ObservableList<Client> items2 = FXCollections.observableArrayList();
+    ObservableList<Service> items3 = FXCollections.observableArrayList();
 
     @FXML
     public void initialize(){
@@ -112,6 +115,27 @@ public class RecepterController {
         loadServices();
         clientChoice.setItems(items2);
         serviceChoice.setItems(items);
+    }
+
+    @FXML
+    public void add_service_on_recept(ActionEvent event){
+
+        if (clientChoice.getSelectionModel().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Veuillez selectionner un client", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+        if (serviceChoice.getSelectionModel().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Veuillez selectionner un service", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }else {
+            // on récupeère les valeurs de la choiceBox et on l'add dans item3
+            Service service = (Service) serviceChoice.getSelectionModel().getSelectedItem();
+            items3.add(service);
+            System.out.println(items3);
+
+            // on l'add dans le listview temporaire
+            temp_serviceList.setItems(items3);
+        }
+
+
     }
 
     @FXML
