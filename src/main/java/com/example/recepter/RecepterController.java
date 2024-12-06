@@ -1,30 +1,23 @@
 package com.example.recepter;
 
 import Models.Client;
-import com.fasterxml.jackson.core.type.TypeReference;
+import bdd.FactureManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import bdd.ServiceBdd;
-import bdd.ClientBdd;
+import javafx.scene.control.*;
+import bdd.ServiceManager;
+import bdd.ClientManager;
 import Models.Service;
 import javafx.collections.ObservableList;
-import javax.swing.JOptionPane;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.Generator;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,6 +81,8 @@ public class RecepterController {
     private ListView temp_serviceList;
     @FXML
     private ListView clientList;
+    @FXML
+    private TextField temp_sum;
 
     @FXML
     private ListView<String> info_entrepriseList;
@@ -103,10 +98,44 @@ public class RecepterController {
         serviceList.setItems(items);
         clientList.setItems(items2);
 
+        //vider les listes au demarrage
+        temp_sum.setText("total : 0.0 €");
+
+
         //charger les services initiaux (optionnel)
         loadServices();
         loadClients();
         //load_info_entreprise();
+    }
+
+    private boolean checkFieldsOnRecept() {
+        if (clientChoice.getSelectionModel().isEmpty() && !serviceChoice.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez selectionner un client");
+            alert.showAndWait();
+        }
+        if (serviceChoice.getSelectionModel().isEmpty() && !clientChoice.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez selectionner un service");
+            alert.showAndWait();
+        }
+        if (clientChoice.getSelectionModel().isEmpty() && serviceChoice.getSelectionModel().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez selectionner un client et un service");
+            alert.showAndWait();
+        }
+        if (!clientChoice.getSelectionModel().isEmpty() && !serviceChoice.getSelectionModel().isEmpty()) {
+            return true;
+        }else {
+            return false;
+        }
+
     }
 
     @FXML
@@ -120,19 +149,18 @@ public class RecepterController {
     @FXML
     public void add_service_on_recept(ActionEvent event){
 
-        if (clientChoice.getSelectionModel().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Veuillez selectionner un client", "Erreur", JOptionPane.ERROR_MESSAGE);
-        }
-        if (serviceChoice.getSelectionModel().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Veuillez selectionner un service", "Erreur", JOptionPane.ERROR_MESSAGE);
-        }else {
+
+
+        if (this.checkFieldsOnRecept()) {
             // on récupeère les valeurs de la choiceBox et on l'add dans item3
             Service service = (Service) serviceChoice.getSelectionModel().getSelectedItem();
             items3.add(service);
-            System.out.println(items3);
+            //tem.out.println(items3);
 
             // on l'add dans le listview temporaire
             temp_serviceList.setItems(items3);
+            Double amount = Generator.SumAmmount(this.items3);
+            temp_sum.setText("total : " + amount + " €");
         }
 
 
@@ -144,19 +172,35 @@ public class RecepterController {
         String priceInput = this.priceService.getText();
 
         if (serviceName.isEmpty() || priceInput.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez remplir tous les champs");
+            alert.showAndWait();
         } else {
             try {
                 double price = Double.parseDouble(priceInput);
-                ServiceBdd sm = new ServiceBdd();
+                ServiceManager sm = new ServiceManager();
                 if(sm.addService(serviceName, price)){
-                    JOptionPane.showMessageDialog(null, "Service non-ajouté, probleme de base de données", "Confirmation", JOptionPane.ERROR_MESSAGE);
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Service non-ajouté, probleme de base de données");
+                    alert.showAndWait();
                 }else {
-                    JOptionPane.showMessageDialog(null, "Service ajouteé", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Service ajouté avec succes");
+                    alert.showAndWait();
                 }
                 this.loadServices();
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Veuillez entrer un prix valide", "Erreur", JOptionPane.ERROR_MESSAGE);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Veuillez entrer un prix valide");
+                alert.showAndWait();
             }
         }
     }
@@ -165,7 +209,7 @@ public class RecepterController {
         this.items.clear();
 
         try {
-            ServiceBdd sm = new ServiceBdd();
+            ServiceManager sm = new ServiceManager();
             ResultSet rs = sm.getServices();
 
 
@@ -193,11 +237,19 @@ public class RecepterController {
         String email = this.email.getText();
 
         if (brand.isEmpty() || firstname.isEmpty() || name.isEmpty() || siret.isEmpty() || adresse.isEmpty() || email.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs avec des informations valides", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez remplir tous les champs avec des informations valides");
+            alert.showAndWait();
         } else if (!email.matches("^(.+)@(.+)$")) {
-            JOptionPane.showMessageDialog(null, "Veuillez entrer une adresse email valide", "Erreur d'email", JOptionPane.ERROR_MESSAGE);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez entrer une adresse email valide");
+            alert.showAndWait();
         } else {
-            ClientBdd cm = new ClientBdd();
+            ClientManager cm = new ClientManager();
             cm.addClient(brand, firstname, name, siret, adresse, email);
             this.loadClients();
         }
@@ -208,14 +260,18 @@ public class RecepterController {
         this.items2.clear();
 
         try {
-            ClientBdd cm = new ClientBdd();
+            ClientManager cm = new ClientManager();
             ResultSet rs = cm.getClients();
 
 
             while (rs.next()) {
                 String name = rs.getString("name");
                 String brand = rs.getString("brand");
-                Client client = new Client(brand, name);
+                int id = rs.getInt("id");
+                String siret = rs.getString("siret");
+                String adresse = rs.getString("adresse");
+                String email = rs.getString("mail");
+                Client client = new Client(id, brand, name, siret, adresse, email);
                 this.items2.add(client);
             }
         } catch (SQLException e) {
@@ -238,27 +294,66 @@ public class RecepterController {
         newEntry.put("adresse", adresse);
         newEntry.put("email", email);
 
-        // Spécifier le chemin du fichier JSON
-        String filePath = "src/main/resources/json/informations_entreprise.json";
+        if (brand.isEmpty() || siret.isEmpty() || adresse.isEmpty() || email.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez remplir tous les champs");
+            alert.showAndWait();
+        }else{
 
-        try {
-            // Créer un ObjectMapper pour gérer le JSON
-            ObjectMapper objectMapper = new ObjectMapper();
+            // Spécifier le chemin du fichier JSON
+            String filePath = "src/main/resources/json/informations_entreprise.json";
 
-            // Créer une liste contenant uniquement la nouvelle entrée
-            List<Map<String, Object>> dataList = new ArrayList<>();
-            dataList.add(newEntry);
+            try {
+                // Créer un ObjectMapper pour gérer le JSON
+                ObjectMapper objectMapper = new ObjectMapper();
 
-            // Sauvegarder la nouvelle liste dans le fichier JSON, en remplaçant son contenu
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), dataList);
+                // Créer une liste contenant uniquement la nouvelle entrée
+                List<Map<String, Object>> dataList = new ArrayList<>();
+                dataList.add(newEntry);
 
-            JOptionPane.showMessageDialog(null, "Informations ajoutées", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Impossible d'ajouter les informations", "Erreur", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+                // Sauvegarder la nouvelle liste dans le fichier JSON, en remplaçant son contenu
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), dataList);
+
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information");
+                alert.setHeaderText(null);
+                alert.setContentText("Informations ajoutées avec succes");
+                alert.showAndWait();
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Impossible d'ajouter les informations");
+                alert.showAndWait();
+                e.printStackTrace();
+            }
+
         }
     }
 
+    @FXML
+    public void clean_added_services(ActionEvent event) {
+        this.items3.clear();
+        temp_sum.setText("total : 0.0 €");
+    }
+
+    public void generate_facture_pdf() {
+        Double amount = Generator.SumAmmount(this.items3);
+        System.out.println(amount);
+
+        FactureManager fm = new FactureManager();
+        int num_facture = (int) (Math.random() * 1000);
+        boolean status = false;
+        Client client = (Client) clientChoice.getSelectionModel().getSelectedItem();
+        int client_id = client.getId();
+
+        System.out.println(client_id);
+        fm.addFacture(num_facture, status, amount, client_id);
+
+    }
 
 /*
     @FXML

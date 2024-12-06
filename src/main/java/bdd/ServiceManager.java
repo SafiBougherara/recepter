@@ -2,34 +2,27 @@ package bdd;
 
 import java.sql.*;
 
-public class ClientBdd {
+public class ServiceManager {
 
-    public void addClient(String brand, String firstname, String name, String siret, String adresse, String email) {
+    public boolean addService(String name, double amount) {
         BddManager bddManager = new BddManager();
         Connection Connection = bddManager.connection();
-        String sql_request = "INSERT INTO clients (brand, firstname, name, siret, adresse, mail) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql_request = "INSERT INTO services (name, amount) VALUES (?, ?)";
         try {
             PreparedStatement pstmt = Connection.prepareStatement(sql_request);
-            pstmt.setString(1, brand);
-            pstmt.setString(2, firstname);
-            pstmt.setString(3, name);
-            pstmt.setString(4, siret);
-            pstmt.setString(5, adresse);
-            pstmt.setString(6, email);
-
-            pstmt.execute();
+            pstmt.setString(1, name);
+            pstmt.setDouble(2, amount);
+            return pstmt.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-
-
-    public ResultSet getClients(){
+    public ResultSet getServices(){
         BddManager bdd = new BddManager();
         Connection connection = bdd.connection();
         ResultSet rs = null;
-        String sql_request = "SELECT * FROM clients";
+        String sql_request = "SELECT * FROM services";
         try {
             Statement stmt = connection.createStatement();
             rs = stmt.executeQuery(sql_request);

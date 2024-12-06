@@ -76,7 +76,9 @@
                               <ChoiceBox fx:id="serviceChoice" layoutX="115.0" layoutY="74.0" prefHeight="26.0" prefWidth="474.0" />
                               <Button layoutX="241.0" layoutY="119.0" mnemonicParsing="false" onAction="#add_service_on_recept" prefHeight="26.0" prefWidth="177.0" text="Ajouter le service à la facture" />
                               <ListView fx:id="temp_serviceList" layoutX="3.0" layoutY="274.0" prefHeight="229.0" prefWidth="613.0" />
-                              <Button layoutX="14.0" layoutY="239.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="177.0" text="appliquer les services choisies" />
+                              <Button layoutX="14.0" layoutY="239.0" mnemonicParsing="false" onAction="#generate_facture_pdf" prefHeight="26.0" prefWidth="177.0" text="Génerer la facture (PDF)" />
+                              <Button layoutX="518.0" layoutY="243.0" mnemonicParsing="false" onAction="#clean_added_services" prefHeight="26.0" prefWidth="89.0" text="vider la liste" />
+                              <TextField fx:id="temp_sum" layoutX="459.0" layoutY="467.0" />
                            </children>
                         </AnchorPane>
                     </items>
