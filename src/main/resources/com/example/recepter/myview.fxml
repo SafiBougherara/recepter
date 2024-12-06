@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<TabPane maxHeight=" -Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.recepter.RecepterController">
+  <tabs>
+    <Tab text="Clients">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <SplitPane dividerPositions="0.29797979797979796" layoutX="-11.0" layoutY="-13.0" prefHeight="580.0" prefWidth="907.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ListView fx:id="clientList" layoutX="10.0" layoutY="13.0" prefHeight="562.0" prefWidth="253.0" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="383.0" prefWidth="417.0">
+                           <children>
+                              <Label layoutX="92.0" layoutY="113.0" text="Nom" />
+                              <TextField fx:id="name" layoutX="137.0" layoutY="109.0" prefHeight="26.0" prefWidth="360.0" />
+                              <Label layoutX="92.0" layoutY="153.0" text="Siret" />
+                              <TextField fx:id="siret" layoutX="133.0" layoutY="149.0" prefHeight="26.0" prefWidth="360.0" />
+                              <TextArea fx:id="adresse" layoutX="134.0" layoutY="220.0" prefHeight="47.0" prefWidth="359.0" />
+                              <Label layoutX="83.0" layoutY="236.0" text="Adresse" />
+                              <Label layoutX="91.0" layoutY="190.0" text="Email" />
+                              <TextField fx:id="email" layoutX="134.0" layoutY="186.0" prefHeight="26.0" prefWidth="359.0" />
+                              <Button layoutX="150.0" layoutY="294.0" mnemonicParsing="false" onAction="#add_client" prefHeight="27.0" prefWidth="334.0" text="Ajouter un client" />
+                              <Label layoutX="89.0" layoutY="38.0" text="Brand" />
+                              <TextField fx:id="brand" layoutX="134.0" layoutY="34.0" prefHeight="26.0" prefWidth="360.0" />
+                              <Label layoutX="83.0" layoutY="74.0" text="Prénom" />
+                              <TextField fx:id="firstname" layoutX="136.0" layoutY="70.0" prefHeight="26.0" prefWidth="360.0" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Factures">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <HBox layoutX="6.0" layoutY="-3.0" prefHeight="59.0" prefWidth="893.0" spacing="20.0">
+                     <children>
+                        <Label text="Clients" />
+                        <ChoiceBox fx:id="clientChoice" prefHeight="26.0" prefWidth="810.0" />
+                     </children>
+                     <padding>
+                        <Insets left="20.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <SplitPane dividerPositions="0.29797979797979796" layoutX="6.0" layoutY="59.0" prefHeight="507.0" prefWidth="890.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ListView layoutX="3.0" layoutY="1.0" prefHeight="503.0" prefWidth="256.0" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Label fx:id="num_facture" layoutX="240.0" layoutY="30.0" prefHeight="17.0" prefWidth="122.0" text="Numéro de facture" />
+                              <Label layoutX="44.0" layoutY="79.0" text="Service" />
+                              <ChoiceBox fx:id="serviceChoice" layoutX="115.0" layoutY="74.0" prefHeight="26.0" prefWidth="474.0" />
+                              <Button layoutX="241.0" layoutY="119.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="177.0" text="Ajouter le service à la facture" />
+                              <ListView fx:id="serviceList" layoutX="3.0" layoutY="274.0" prefHeight="229.0" prefWidth="613.0" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Services">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <SplitPane dividerPositions="0.29797979797979796" layoutX="-11.0" layoutY="-13.0" prefHeight="580.0" prefWidth="907.0">
+                     <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ListView fx:id="serviceList" layoutX="10.0" layoutY="13.0" prefHeight="562.0" prefWidth="253.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="383.0" prefWidth="417.0">
+                           <children>
+                              <Label alignment="CENTER" layoutX="149.0" layoutY="25.0" prefHeight="36.0" prefWidth="301.0" text="Gestion des services">
+                                 <font>
+                                    <Font size="26.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="nameService" layoutX="122.0" layoutY="110.0" prefHeight="26.0" prefWidth="360.0" />
+                              <Label layoutX="48.0" layoutY="174.0" text="Prix" />
+                              <TextField fx:id="priceService" layoutX="125.0" layoutY="168.0" prefHeight="26.0" prefWidth="358.0" />
+                              <Button fx:id="addService" layoutX="503.0" layoutY="117.0" mnemonicParsing="false" onAction="#add_service" prefHeight="70.0" prefWidth="116.0" text="Ajouter un service" />
+                              <Label layoutX="45.0" layoutY="114.0" text="Nom" />
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+      <Tab text="information entreprise">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <SplitPane dividerPositions="0.29797979797979796" layoutX="-11.0" layoutY="-13.0" prefHeight="580.0" prefWidth="907.0">
+                     <items>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ListView fx:id="info_entreprise" layoutX="10.0" layoutY="13.0" prefHeight="562.0" prefWidth="253.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="383.0" prefWidth="417.0">
+                           <children>
+                              <Label layoutX="85.0" layoutY="70.0" text="Brand" />
+                              <TextField fx:id="brandE" layoutX="130.0" layoutY="66.0" prefHeight="26.0" prefWidth="360.0" />
+                              <Label layoutX="89.0" layoutY="111.0" text="Siret" />
+                              <TextField fx:id="siretE" layoutX="130.0" layoutY="107.0" prefHeight="26.0" prefWidth="360.0" />
+                              <TextArea fx:id="adresseE" layoutX="131.0" layoutY="178.0" prefHeight="47.0" prefWidth="359.0" />
+                              <Label layoutX="80.0" layoutY="194.0" text="Adresse" />
+                              <Label layoutX="88.0" layoutY="148.0" text="Email" />
+                              <TextField fx:id="emailE" layoutX="131.0" layoutY="144.0" prefHeight="26.0" prefWidth="359.0" />
+                              <Button layoutX="141.0" layoutY="249.0" mnemonicParsing="false" onAction="#add_info_entreprise" prefHeight="26.0" prefWidth="341.0" text="Modifier informations de l'entreprise" />
+                           </children>
+                        </AnchorPane>
+                     </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>
