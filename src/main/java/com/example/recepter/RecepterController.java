@@ -4,6 +4,7 @@ import Models.Client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
@@ -94,7 +95,6 @@ public class RecepterController {
         //lier items à la listeView au démarrage
         serviceList.setItems(items);
         clientList.setItems(items2);
-        clientChoice.setItems(items2);
 
         //charger les services initiaux (optionnel)
         loadServices();
@@ -102,7 +102,11 @@ public class RecepterController {
         //load_info_entreprise();
     }
 
-
+    @FXML
+    public void load_client_facture(Event e){
+        loadClients();
+        clientChoice.setItems(items2);
+    }
 
     @FXML
     public void add_service(ActionEvent event){

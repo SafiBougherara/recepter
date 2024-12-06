@@ -49,7 +49,7 @@
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab text="Factures">
+    <Tab onSelectionChanged="#load_client_facture" text="Factures">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>

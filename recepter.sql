@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Nov 15, 2024 at 11:42 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Host: 127.0.0.1
+-- Generation Time: Dec 06, 2024 at 11:22 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,10 +30,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `clients` (
   `id` int(11) NOT NULL,
   `brand` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `siret` varchar(255) NOT NULL,
   `adresse` text NOT NULL,
   `mail` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`id`, `brand`, `firstname`, `name`, `siret`, `adresse`, `mail`) VALUES
+(1, 'test', 'test', 'tes', 'test', 'test', 'test@test.com');
 
 -- --------------------------------------------------------
 
@@ -64,12 +73,7 @@ CREATE TABLE `services` (
 --
 
 INSERT INTO `services` (`id`, `name`, `amount`) VALUES
-(1, 'dscsc', 1111),
-(2, 'dvsv', 1111),
-(3, 'dvsv', 1111),
-(4, 'dvsv', 1111),
-(5, 'qnh,jh', 111),
-(7, 'popop', 1223);
+(1, 'service de surveillance', 12500);
 
 --
 -- Indexes for dumped tables
@@ -101,7 +105,7 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `factures`
@@ -113,7 +117,7 @@ ALTER TABLE `factures`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
