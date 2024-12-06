@@ -77,6 +77,10 @@ public class RecepterController {
     @FXML
     private ChoiceBox clientChoice;
 
+    //serviceChoice
+    @FXML
+    private ChoiceBox serviceChoice;
+
     //lists
     @FXML
     private ListView serviceList;
@@ -105,7 +109,9 @@ public class RecepterController {
     @FXML
     public void load_client_facture(Event e){
         loadClients();
+        loadServices();
         clientChoice.setItems(items2);
+        serviceChoice.setItems(items);
     }
 
     @FXML
