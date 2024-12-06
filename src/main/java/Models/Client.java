@@ -33,4 +33,8 @@ public class Client {
     public int getId() {
         return this.id;
     }
+
+    public String getBrand() {
+        return this.brand;
+    }
 }

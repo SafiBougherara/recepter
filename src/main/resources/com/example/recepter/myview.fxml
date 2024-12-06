@@ -42,6 +42,7 @@
                               <TextField fx:id="brand" layoutX="134.0" layoutY="34.0" prefHeight="26.0" prefWidth="360.0" />
                               <Label layoutX="83.0" layoutY="74.0" text="Prénom" />
                               <TextField fx:id="firstname" layoutX="136.0" layoutY="70.0" prefHeight="26.0" prefWidth="360.0" />
+                              <Button layoutX="9.0" layoutY="548.0" mnemonicParsing="false" onAction="#remove_selected_client" prefHeight="26.0" prefWidth="137.0" text="retirer le client choisi" />
                            </children>
                         </AnchorPane>
                     </items>
@@ -109,6 +110,7 @@
                               <TextField fx:id="priceService" layoutX="125.0" layoutY="168.0" prefHeight="26.0" prefWidth="358.0" />
                               <Button fx:id="addService" layoutX="503.0" layoutY="117.0" mnemonicParsing="false" onAction="#add_service" prefHeight="70.0" prefWidth="116.0" text="Ajouter un service" />
                               <Label layoutX="45.0" layoutY="114.0" text="Nom" />
+                              <Button layoutX="11.0" layoutY="543.0" mnemonicParsing="false" onAction="#remove_selected_service" prefHeight="26.0" prefWidth="138.0" text="retirer le service choisi" />
                            </children>
                         </AnchorPane>
                      </items>

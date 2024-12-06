@@ -216,7 +216,8 @@ public class RecepterController {
             while (rs.next()) {
                 String name = rs.getString("name");
                 double price = rs.getDouble("amount");
-                Service service = new Service(name, price);
+                int id = rs.getInt("id");
+                Service service = new Service(name, price, id);
                 this.items.add(service);
             }
         } catch (SQLException e) {
@@ -253,6 +254,20 @@ public class RecepterController {
             cm.addClient(brand, firstname, name, siret, adresse, email);
             this.loadClients();
         }
+    }
+
+    public void remove_selected_client(ActionEvent event){
+
+        Client client = (Client) clientList.getSelectionModel().getSelectedItem();
+        if (client != null) {
+            System.out.println(client.getId());
+            ClientManager cm = new ClientManager();
+            cm.removeClient(client.getId());
+            this.loadClients();
+        }
+    }
+    public void remove_selected_service(ActionEvent event){
+        // à faire / voir remove_selected_client
     }
 
 
@@ -352,7 +367,6 @@ public class RecepterController {
 
         System.out.println(client_id);
         fm.addFacture(num_facture, status, amount, client_id);
-
     }
 
 /*

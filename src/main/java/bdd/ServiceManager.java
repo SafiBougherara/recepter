@@ -32,4 +32,17 @@ public class ServiceManager {
             throw new RuntimeException(e);
         }
     }
+
+    public void removeService(int id) {
+        BddManager bdd = new BddManager();
+        Connection connection = bdd.connection();
+        String sql_request = "DELETE FROM services WHERE id = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql_request);
+            pstmt.setInt(1, id);
+            pstmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

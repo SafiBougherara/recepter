@@ -39,4 +39,17 @@ public class ClientManager {
             throw new RuntimeException(e);
         }
     }
+
+    public void removeClient(int id) {
+        BddManager bdd = new BddManager();
+        Connection connection = bdd.connection();
+        String sql_request = "DELETE FROM clients WHERE id = ?";
+        try {
+            PreparedStatement pstmt = connection.prepareStatement(sql_request);
+            pstmt.setInt(1, id);
+            pstmt.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
