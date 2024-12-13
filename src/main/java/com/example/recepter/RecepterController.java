@@ -263,11 +263,28 @@ public class RecepterController {
             System.out.println(client.getId());
             ClientManager cm = new ClientManager();
             cm.removeClient(client.getId());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("Client supprimé avec succes");
+            alert.showAndWait();
             this.loadClients();
         }
     }
     public void remove_selected_service(ActionEvent event){
-        // à faire / voir remove_selected_client
+
+        Service service = (Service) serviceList.getSelectionModel().getSelectedItem();
+        if (service != null) {
+            System.out.println(service.getId());
+            ServiceManager sm = new ServiceManager();
+            sm.removeService(service.getId());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText(null);
+            alert.setContentText("Service supprimé avec succes");
+            alert.showAndWait();
+            this.loadServices();
+        }
     }
 
 
