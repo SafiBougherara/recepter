@@ -35,7 +35,6 @@ public class RecepterController {
     @FXML
     private TextField priceService;
 
-
     //client
     @FXML
     private TextField nameClient;
